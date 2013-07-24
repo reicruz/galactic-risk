@@ -75,9 +75,10 @@
         <th width="62" scope="col">Number Of Fleets</th>
         <th width="" scope="col"></th>
         <th width="" scope="col"></th>
+        <th width="" scope="col">Fortification Source</th>
         <th width="" scope="col"></th>
-        <th scope="col">Fleet Source</th>
-        <th scope="col">Fleet Amount</th>
+        <th scope="col">Attack Source</th>
+        <th scope="col">Attack Amount</th>
       </tr>
       <h1 align="center"> System <%= (id+1) %></h1>
       
@@ -110,13 +111,42 @@
             </td>
             <td>
               <form action="/risk/game" method="POST">
+              <input type="hidden" name="operation" value="FORTIFY" />
+              <input type="hidden" id="planetID" value="<%= currentPlanet.getOwner().getName()%>" name="currentPlayer" />
+              <input type="hidden" id="planetID" name="planetID" value="<%= j %>" />
+              <input type="submit" id="fortify" name="fortifyButtons" value="Fortify" disabled/>
+            </td>
+             <td>
+              <select name="fortifyPlanets" disabled>
+                <% for (StarSystem system : game.getAllSystems()) {
+                    for (Planet planet : system.getPlanets()) {
+                      if (planet.getOwner().equals(currentPlayer) 
+                        && (!currentPlanet.equals(planet)) 
+                          && (planet.getFleets() > 1)) {%>
+                        <option value="<%= planet.getName()%>"><%=planet.getName()%></option>
+                      <%}
+                  }
+               }%> 
+              </select>
+              </td>
+              </form>
+              <script type="text/javascript">
+              var fortifyButtons = document.getElementsByName("fortifyButtons");
+              var fortifyPlanets = document.getElementsByName("fortifyPlanets");
+              for (var i=0; i<fortifyButtons.length; i++) {
+                if (<%= currentPlanet.getOwner().getName().equals(currentPlayer.getName()) %>) {
+                  fortifyButtons[i].disabled = false;
+                  fortifyPlanets[i].disabled = false;
+            }
+      }
+          </script> 
+            </td>
+            <td>
+              <form action="/risk/game" method="POST">
               <input type="hidden" name="operation" value="ATTACK" />
               <input type="hidden" id="planetID" value="<%= currentPlanet.getOwner().getName()%>" name="currentPlayer" />
               <input type="hidden" id="planetID" name="planetID" value="<%= j %>" />
               <input type="submit" id="Attack" name="attackButtons" value="Attack" disabled/>
-            </td>
-            <td>
-              <input type="submit" id="Fortify" name="fortifyButtons" value="Fortify" disabled/>
             </td>
             <td>
               <select name="viablePlanets" disabled>
@@ -124,11 +154,6 @@
                     for (Planet planet : system.getPlanets()) {
                       if (planet.getOwner().equals(currentPlayer) 
                         && (!currentPlanet.getOwner().equals(currentPlayer)) 
-                          && (planet.getFleets() > 1)) {%>
-                        <option value="<%= planet.getName()%>"><%=planet.getName()%></option>
-                      <%}
-                      else if ((planet.getOwner().equals(currentPlayer)) 
-                        && (!planet.equals(currentPlanet)) 
                           && (planet.getFleets() > 1)) {%>
                         <option value="<%= planet.getName()%>"><%=planet.getName()%></option>
                       <%}
@@ -158,10 +183,11 @@
       if (<%= game.getNewFleetsToBeAdded()%> == 0) {
         for (var i=0; i<document.getElementsByName("addNewFleets").length; i++){
           document.getElementsByName("addNewFleets")[i].disabled = true;
+          // document.getElementsByName("fortifyButtons")[i].disabled = true;
+          // document.getElementsByName("fortifyPlanets")[i].disabled = true;
         }
 		for (var i=0; i<document.getElementsByName("attackButtons").length; i++){
           document.getElementsByName("attackButtons")[i].disabled = false;
-          document.getElementsByName("fortifyButtons")[i].disabled = false;
           document.getElementsByName("viablePlanets")[i].disabled = false;
           document.getElementsByName("fleetAmount")[i].disabled = false;
         }

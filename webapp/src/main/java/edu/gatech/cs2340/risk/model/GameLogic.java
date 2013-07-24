@@ -159,13 +159,12 @@ public class GameLogic
     */
 
     public boolean fortifyPlanet(Planet planetLosingFleet, Planet planetGainingFleet){
-    	  if(planetLosingFleet.getOwner().equals(planetGainingFleet.getOwner())){
-    	  		if(planetLosingFleet.getFleets() > 1){
-    	  			planetLosingFleet.setFleets(planetLosingFleet.getFleets() - 1);
-    	  			planetGainingFleet.setFleets(planetGainingFleet.getFleets() + 1);
-    	  			return true;
-    	  		}
-    	  }
+    	if(planetLosingFleet.getFleets() > 1){
+    	   planetLosingFleet.setFleets(planetLosingFleet.getFleets() - 1);
+    	   planetGainingFleet.setFleets(planetGainingFleet.getFleets() + 1);
+    	   return true;	
+    	}
+        else
     	  return false;
     }
 

@@ -64,6 +64,9 @@ import javax.servlet.http.HttpServletResponse;
         } else if (operation.equalsIgnoreCase("ATTACK")){
             System.out.println("Delegating to doAttack()");
             doAttack(request, response);
+        } else if (operation.equalsIgnoreCase("FORTIFY")){
+            System.out.println("Delegating to doFortify()");
+            doFortify(request, response);
         }
         else {
             String name = request.getParameter("name");
@@ -160,6 +163,33 @@ import javax.servlet.http.HttpServletResponse;
                 }
             }
 
+        }
+        currentPlayer = players.get(game.getTurn());
+        request.setAttribute("players", players);
+        request.setAttribute("game", game);
+        request.setAttribute("systems", systems);
+        request.setAttribute("currentPlayer", currentPlayer);
+        request.setAttribute("planets", planets);
+        RequestDispatcher dispatcher =
+            getServletContext().getRequestDispatcher("/map.jsp");
+                dispatcher.forward(request, response);
+        
+    }
+
+    protected void doFortify(HttpServletRequest request,
+                                    HttpServletResponse response) 
+                throws IOException, ServletException {
+
+        System.out.println("In doFortify()");
+        int id = Integer.parseInt(request.getParameter("planetID"));
+        int fortifyPlanetID = Integer.parseInt(request.getParameter("fortifyPlanets"));
+        String currentPlayerName = request.getParameter("currentPlayer");
+        for (int i=0; i < planets.size(); i++ ) {
+            if (currentPlayerName.equals(currentPlayer.getName())) {
+                if (i == id) {
+                    game.fortifyPlanet(planets.get(fortifyPlanetID-1), planets.get(id));
+                }
+            }
         }
         currentPlayer = players.get(game.getTurn());
         request.setAttribute("players", players);
