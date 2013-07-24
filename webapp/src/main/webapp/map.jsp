@@ -105,9 +105,6 @@
 				if (<%= currentPlanet.getOwner().getName().equals(currentPlayer.getName()) %>) {
 					fleetButtons[i].disabled = false;
         		}
-				else { 
-					fleetButtons[i].disabled = true; 
-				}
 			}
         	</script>	
             </td>
