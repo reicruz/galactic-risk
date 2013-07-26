@@ -72,14 +72,13 @@ public class GameLogic
         String appendage = "Attacker %s with a roll of %d against %d!";
 
         for (int i = defendRolls.size() -1; i >= 0; i--) {
-            if(attackRolls.size() > defendRolls.size()){
-                if (defendRolls.get(i) >= attackRolls.get(i + 1)) {
+            if((attackRolls.size() > defendRolls.size()) && (defendRolls.get(i) >= attackRolls.get(i + 1))){
                     attacker.setFleets(attacker.getFleets()-1);
                     attacker.getOwner().setTotalFleets(attacker.getOwner().getFleets() - 1);
                     appendage = String.format("Attacker %s with a roll of %d against %d!",
                     "lost", attackRolls.get(i), defendRolls.get(i));
                     logResult(appendage);
-                }   
+                 
             }else if (defendRolls.get(i) >= attackRolls.get(i)) {
                 attacker.setFleets(attacker.getFleets()-1);
                 attacker.getOwner().setTotalFleets(attacker.getOwner().getFleets() - 1);
@@ -150,6 +149,7 @@ public class GameLogic
         for (int i = 0; i < dice; i++)
             rolls.add(rollDice());
         Collections.sort(rolls);
+        Collections.reverse(rolls);
         return rolls;
     }
     /**

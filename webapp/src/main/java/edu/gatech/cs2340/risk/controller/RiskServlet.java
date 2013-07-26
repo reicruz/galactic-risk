@@ -186,7 +186,7 @@ import javax.servlet.http.HttpServletResponse;
         String currentPlayerName = request.getParameter("currentPlayer");
         for (int i=0; i < planets.size(); i++ ) {
             if (currentPlayerName.equals(currentPlayer.getName())) {
-                if (i == id) {
+                if ((i == id) && (planets.get(fortifyPlanetID-1).getFleets() > 1)) {
                     game.fortifyPlanet(planets.get(fortifyPlanetID-1), planets.get(id));
                 }
             }
@@ -220,7 +220,12 @@ import javax.servlet.http.HttpServletResponse;
         currentPlayer = players.get(game.getTurn());
 		
 		if (game.gameOver()) {
-			response.sendRedirect("http://www.gifgrow.com/g/uTtUwm");
+            game = null;
+            request.setAttribute("currentPlayer", currentPlayer);
+            RequestDispatcher dispatcher =
+                getServletContext().getRequestDispatcher("/winScreen.jsp");
+            dispatcher.forward(request, response);
+			//response.sendRedirect("http://www.gifgrow.com/g/uTtUwm");
 		}else{
         request.setAttribute("players", players);
         request.setAttribute("game", game);

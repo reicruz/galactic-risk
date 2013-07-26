@@ -183,8 +183,6 @@
       if (<%= game.getNewFleetsToBeAdded()%> == 0) {
         for (var i=0; i<document.getElementsByName("addNewFleets").length; i++){
           document.getElementsByName("addNewFleets")[i].disabled = true;
-          // document.getElementsByName("fortifyButtons")[i].disabled = true;
-          // document.getElementsByName("fortifyPlanets")[i].disabled = true;
         }
 		for (var i=0; i<document.getElementsByName("attackButtons").length; i++){
           document.getElementsByName("attackButtons")[i].disabled = false;
