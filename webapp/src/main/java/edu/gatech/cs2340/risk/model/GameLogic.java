@@ -54,7 +54,6 @@ public class GameLogic
 		if(player.getNumPlanets() == allSystems.size() * planetList.size()){
 			gameOver = true;
 		}
-		
 		return gameOver;
 	}
 

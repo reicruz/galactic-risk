@@ -220,7 +220,13 @@ import javax.servlet.http.HttpServletResponse;
         currentPlayer = players.get(game.getTurn());
 		
 		if (game.gameOver()) {
-			response.sendRedirect("http://www.gifgrow.com/g/uTtUwm");
+			for (int i=0; i < players.size(); i++ ) {
+				players.remove(i);
+			}
+			request.setAttribute("players", players);
+			RequestDispatcher dispatcher =
+				getServletContext().getRequestDispatcher("/playerSelection.jsp");
+					dispatcher.forward(request, response);
 		}else{
         request.setAttribute("players", players);
         request.setAttribute("game", game);
@@ -230,8 +236,8 @@ import javax.servlet.http.HttpServletResponse;
         RequestDispatcher dispatcher =
             getServletContext().getRequestDispatcher("/map.jsp");
                 dispatcher.forward(request, response);
-        }
-    }
+		}
+	}
 
 
     protected void doPlanetStats(HttpServletRequest request,

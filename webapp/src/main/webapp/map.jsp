@@ -174,8 +174,10 @@
 </form>
   <form action="/risk/game" method="POST">
   	  <input type="hidden" name="operation" value="GAME" />    
-      <input type="submit" id="End Turn" value="End Turn" disabled/>
+      <input type="submit" id="End Turn" value="End Turn"/>
   </form>
+
+
 
 <!-- keeps the buttons from displaying if the player has no fleets to add -->
 <!-- also enables the attack buttons -->
@@ -193,6 +195,13 @@
         }
 
 		document.getElementById("End Turn").disabled = false;
+	 }
+	 function confirmSubmit() {
+	 var playAgain = confirm("<%= currentPlayer.getName()%> wins! Play again?");
+		if (playAgain = true) 
+			return true;
+		else
+			return false;		
 	 }
  </script>
 
